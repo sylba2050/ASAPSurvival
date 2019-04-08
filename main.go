@@ -49,6 +49,7 @@ func main() {
     a.File("", "html/admin.html")
     a.GET("/survival", Survival.IsSurvivals(db))
     a.POST("/evolution/:userid", User.Evolution(db))
+    a.GET("/join", User.IsJoins(db))
 
     cli := e.Group("/client")
     cli.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
@@ -61,7 +62,6 @@ func main() {
 
     cli.File("", "html/index.html")
 
-    cli.GET("/isjoins", User.IsJoins(db))
     cli.POST("/join", User.Join(db))
     cli.POST("/dontjoin", User.DontJoin(db))
     cli.POST("/resporn", Survival.Resporn(db))
