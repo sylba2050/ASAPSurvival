@@ -22,12 +22,7 @@ func Create(db *gorm.DB) echo.HandlerFunc {
             return err
         }
 
-        status := c.Get("status")
-        if status == "admin" {
-            user.Status = "admin"
-        } else {
-            user.Status = "client"
-        }
+        user.Status = "client"
 
         isUsedUserId := new(DB.Auth)
         db.Where("user_id = ?", user.UserId).First(&isUsedUserId)
@@ -111,5 +106,19 @@ func IsJoins(db *gorm.DB) echo.HandlerFunc {
         db.Where("is_join = ?", true).Find(&u)
 
         return c.JSON(http.StatusOK, u)
+    }
+}
+
+func Evolution(db *gorm.DB) echo.HandlerFunc {
+    return func(c echo.Context) error {
+        userid := c.Param("userid")
+
+        user := new(DB.Auth)
+        db.Where("user_id = ?", userid).First(&user)
+
+        user.Status = "admin"
+
+        db.Save(&user)
+        return c.HTML(http.StatusOK, "ok")
     }
 }

@@ -41,7 +41,6 @@ func main() {
     a.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
         if username == "admin" && password == "admin" {
             c.Set("userid", username)
-            c.Set("status", "admin")
             return true, nil
         }
         return false, nil
@@ -49,10 +48,11 @@ func main() {
 
     a.File("", "html/admin.html")
     a.GET("/survival", Survival.IsSurvivals(db))
+    a.POST("/evolution/:userid", User.Evolution(db))
 
     cli := e.Group("/client")
     cli.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
-        if username == "admin" && password == "admin" {
+        if username == "client" && password == "client" {
             c.Set("userid", username)
             return true, nil
         }
