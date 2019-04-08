@@ -42,12 +42,6 @@ func Create(db *gorm.DB) echo.HandlerFunc {
     }
 }
 
-func AdminCreate(db *gorm.DB) echo.HandlerFunc {
-    return func(c echo.Context) error {
-        return c.HTML(http.StatusOK, "ok")
-    }
-}
-
 func Delete(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
         userid := c.Param("userid")
