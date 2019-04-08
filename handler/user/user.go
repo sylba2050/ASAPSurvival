@@ -40,6 +40,9 @@ func Create(db *gorm.DB) echo.HandlerFunc {
             fmt.Fprintln(os.Stderr, err)
             return err
         }
+        if user.UserId == "" || user.PW == "" {
+            return c.HTML(http.StatusBadRequest, "NG")
+        }
 
         user.Status = "client"
 

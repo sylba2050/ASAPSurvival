@@ -24,10 +24,12 @@ window.onload = function () {
                 body: JSON.stringify(user)
             }).then(response => {
                 if (response.ok) {
-                    location.href='/create'
-                    console.log("success");
+                    location.href='http://' + user.userid + ':' + user.pw + '@153.126.139.150:8080/client'
+                } else if (response.status == 401) {
+                    // TODO: erorr表示
+                    console.log(response.status);
                 } else {
-                    console.log("failed");
+                    console.log("NG");
                 }
             });
         }

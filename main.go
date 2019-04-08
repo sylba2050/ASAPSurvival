@@ -63,7 +63,10 @@ func main() {
 
     cli := e.Group("/client")
     cli.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
-        if username == "client" && password == "client" {
+        auth := new(DB.Auth)
+        db.Where("user_id = ?", username).First(&auth)
+
+        if username == auth.UserId && password == auth.PW {
             c.Set("userid", username)
             return true, nil
         }
