@@ -3,6 +3,7 @@ package main
 import (
     "./handler/user"
     "./handler/survival"
+    "./handler/contents"
     "./struct/DB"
 
     "github.com/labstack/echo"
@@ -35,7 +36,16 @@ func main() {
     db.AutoMigrate(&DB.Team{})
 
     e.POST("/create", User.Create(db))
+    e.POST("/login", User.Login(db))
     e.POST("/delete/:userid", User.Delete(db))
+
+    e.File("/login", "html/login.html")
+    e.File("/css/login.css", "css/login.css")
+    e.File("/js/login.js", "js/login.js")
+
+    e.File("/create", "html/create.html")
+    e.File("/css/create.css", "css/create.css")
+    e.File("/js/create.js", "js/create.js")
 
     a := e.Group("/admin")
     a.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
@@ -46,7 +56,7 @@ func main() {
         return false, nil
     }))
 
-    a.File("", "html/admin.html")
+    a.GET("", Contents.Admin)
     a.GET("/survival", Survival.IsSurvivals(db))
     a.POST("/evolution/:userid", User.Evolution(db))
     a.GET("/join", User.IsJoins(db))
@@ -60,7 +70,7 @@ func main() {
         return false, nil
     }))
 
-    cli.File("", "html/index.html")
+    cli.GET("", Contents.Client)
 
     cli.GET("/survival", Survival.IsSurvivalMe(db))
     cli.GET("/join", User.IsJoinMe(db))
