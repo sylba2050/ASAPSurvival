@@ -11,11 +11,21 @@ import (
 
     _ "os"
     _ "fmt"
+    "html/template"
+    "io"
 
     "github.com/jinzhu/gorm"
     _ "github.com/mattn/go-sqlite3"
 
 )
+
+type Renderer struct {
+        templates *template.Template
+}
+
+func (r *Renderer) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
+        return r.templates.ExecuteTemplate(w, name, data)
+}
 
 func main() {
     e := echo.New()
@@ -35,17 +45,11 @@ func main() {
     db.AutoMigrate(&DB.IsJoin{})
     db.AutoMigrate(&DB.Team{})
 
-    e.POST("/create", User.Create(db))
-    e.POST("/login", User.Login(db))
-    e.POST("/delete/:userid", User.Delete(db))
-
-    e.File("/login", "html/login.html")
-    e.File("/css/login.css", "css/login.css")
-    e.File("/js/login.js", "js/login.js")
-
-    e.File("/create", "html/create.html")
-    e.File("/css/create.css", "css/create.css")
-    e.File("/js/create.js", "js/create.js")
+    e.Renderer = &Renderer{
+        templates: template.Must(template.ParseGlob("views/*.html")),
+    }
+    e.Static("/js", "js")
+    e.Static("/css", "css")
 
     a := e.Group("/admin")
     a.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
@@ -59,30 +63,25 @@ func main() {
     a.GET("", Contents.Admin)
     a.POST("/evolution/:userid", User.Evolution(db))
 
-    cli := e.Group("/client")
-    cli.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
-        auth := new(DB.Auth)
-        db.Where("user_id = ?", username).First(&auth)
+    e.File("/", "html/login.html")
+    e.File("/create", "html/create.html")
 
-        if username == auth.UserId && password == auth.PW {
-            c.Set("userid", username)
-            return true, nil
-        }
-        return false, nil
-    }))
+    e.GET("/client/:userid", Contents.Client)
 
-    cli.GET("", Contents.Client)
+    e.POST("/login", User.Login(db))
+    e.POST("/create", User.Create(db))
+    e.POST("/delete/:userid", User.Delete(db))
 
-    cli.GET("/survival", Survival.IsSurvivals(db))
-    cli.GET("/join", User.IsJoins(db))
+    e.GET("/survival", Survival.IsSurvivals(db))
+    e.GET("/join", User.IsJoins(db))
 
-    cli.GET("/survival/me", Survival.IsSurvivalMe(db))
-    cli.GET("/join/me", User.IsJoinMe(db))
+    e.GET("/survival/:userid", Survival.IsSurvivalMe(db))
+    e.GET("/join/:userid", User.IsJoinMe(db))
 
-    cli.POST("/join", User.Join(db))
-    cli.POST("/dontjoin", User.DontJoin(db))
-    cli.POST("/resporn", Survival.Resporn(db))
-    cli.POST("/dead", Survival.Dead(db))
+    e.POST("/join/:userid", User.Join(db))
+    e.POST("/dontjoin/:userid", User.DontJoin(db))
+    e.POST("/resporn/:userid", Survival.Resporn(db))
+    e.POST("/dead/:userid", Survival.Dead(db))
 
     e.Start(":8080")
 }

@@ -24,7 +24,7 @@ window.onload = function () {
                 body: JSON.stringify(user)
             }).then(response => {
                 if (response.ok) {
-                    location.href='http://' + user.userid + ':' + user.pw + '@153.126.139.150:8080/client'
+                    location.href='/client/' + user.userid;
                 } else if (response.status == 400) {
                     // TODO: erorr
                     console.log(response.status);

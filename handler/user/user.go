@@ -11,7 +11,6 @@ import (
 
     "github.com/jinzhu/gorm"
     _ "github.com/mattn/go-sqlite3"
-
 )
 
 func Login(db *gorm.DB) echo.HandlerFunc {
@@ -26,7 +25,7 @@ func Login(db *gorm.DB) echo.HandlerFunc {
         db.Where("user_id = ?", user.UserId).First(&auth)
 
         if user.UserId == auth.UserId && user.PW == auth.PW {
-            return c.HTML(http.StatusOK, "ok")
+            return c.NoContent(http.StatusOK)
         } else {
             return c.HTML(http.StatusUnauthorized, "NG")
         }
@@ -87,8 +86,7 @@ func Delete(db *gorm.DB) echo.HandlerFunc {
 
 func Join(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
-        userid := c.Get("userid")
-        //TODO useridのヌル判定
+        userid := c.Param("userid")
 
         join := new(DB.IsJoin)
         db.Where("user_id = ?", userid).First(&join)
@@ -102,8 +100,7 @@ func Join(db *gorm.DB) echo.HandlerFunc {
 
 func DontJoin(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
-        userid := c.Get("userid")
-        //TODO useridのヌル判定
+        userid := c.Param("userid")
 
         join := new(DB.IsJoin)
         db.Where("user_id = ?", userid).First(&join)
@@ -131,8 +128,7 @@ func IsJoins(db *gorm.DB) echo.HandlerFunc {
 
 func IsJoinMe(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
-        userid := c.Get("userid")
-        //TODO useridのヌル判定
+        userid := c.Param("userid")
 
         join := new(DB.IsJoin)
         db.Where("user_id = ?", userid).First(&join)

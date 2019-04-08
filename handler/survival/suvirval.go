@@ -31,8 +31,7 @@ func IsSurvivals(db *gorm.DB) echo.HandlerFunc {
 
 func IsSurvivalMe(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
-        userid := c.Get("userid")
-        //TODO useridのヌル判定
+        userid := c.Param("userid")
 
         survival := new(DB.IsSurvival)
         db.Where("user_id = ?", userid).First(&survival)
@@ -43,8 +42,7 @@ func IsSurvivalMe(db *gorm.DB) echo.HandlerFunc {
 
 func Resporn(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
-        userid := c.Get("userid")
-        //TODO useridのヌル判定
+        userid := c.Param("userid")
 
         survival := new(DB.IsSurvival)
         db.Where("user_id = ?", userid).First(&survival)
@@ -58,8 +56,7 @@ func Resporn(db *gorm.DB) echo.HandlerFunc {
 
 func Dead(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
-        userid := c.Get("userid")
-        //TODO useridのヌル判定
+        userid := c.Param("userid")
 
         survival := new(DB.IsSurvival)
         db.Where("user_id = ?", userid).First(&survival)
