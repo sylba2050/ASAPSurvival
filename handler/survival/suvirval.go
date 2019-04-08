@@ -36,7 +36,7 @@ func Resporn(db *gorm.DB) echo.HandlerFunc {
         survival := new(DB.IsSurvival)
         db.Where("user_id = ?", userid).First(&survival)
 
-        survival.IsSurvival = false
+        survival.IsSurvival = true
 
         db.Save(&survival)
         return c.HTML(http.StatusOK, "ok")
@@ -51,7 +51,7 @@ func Dead(db *gorm.DB) echo.HandlerFunc {
         survival := new(DB.IsSurvival)
         db.Where("user_id = ?", userid).First(&survival)
 
-        survival.IsSurvival = true
+        survival.IsSurvival = false
 
         db.Save(&survival)
         return c.HTML(http.StatusOK, "ok")
