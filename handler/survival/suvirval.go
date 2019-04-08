@@ -29,6 +29,18 @@ func IsSurvivals(db *gorm.DB) echo.HandlerFunc {
     }
 }
 
+func IsSurvivalMe(db *gorm.DB) echo.HandlerFunc {
+    return func(c echo.Context) error {
+        userid := c.Get("userid")
+        //TODO useridのヌル判定
+
+        survival := new(DB.IsSurvival)
+        db.Where("user_id = ?", userid).First(&survival)
+
+        return c.JSON(http.StatusOK, survival)
+    }
+}
+
 func Resporn(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
         userid := c.Get("userid")

@@ -107,6 +107,18 @@ func IsJoins(db *gorm.DB) echo.HandlerFunc {
     }
 }
 
+func IsJoinMe(db *gorm.DB) echo.HandlerFunc {
+    return func(c echo.Context) error {
+        userid := c.Get("userid")
+        //TODO useridのヌル判定
+
+        join := new(DB.IsJoin)
+        db.Where("user_id = ?", userid).First(&join)
+
+        return c.JSON(http.StatusOK, join)
+    }
+}
+
 func Evolution(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
         userid := c.Param("userid")

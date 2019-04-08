@@ -62,6 +62,9 @@ func main() {
 
     cli.File("", "html/index.html")
 
+    cli.GET("/survival", Survival.IsSurvivalMe(db))
+    cli.GET("/join", User.IsJoinMe(db))
+
     cli.POST("/join", User.Join(db))
     cli.POST("/dontjoin", User.DontJoin(db))
     cli.POST("/resporn", Survival.Resporn(db))
