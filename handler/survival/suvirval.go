@@ -20,8 +20,9 @@ func IsSurvivals(db *gorm.DB) echo.HandlerFunc {
 
         db.Table("is_survivals").
             Select("is_survivals.is_survival, is_survivals.user_id").
+            Joins("left join is_joins on is_joins.user_id = is_survivals.user_id").
             Joins("left join auths on auths.user_id = is_survivals.user_id").
-            Where("is_survivals.is_survival = ? AND auths.status = ?", true, "client").
+            Where("is_survivals.is_survival = ? AND is_joins.is_join = ? AND auths.status = ?", true, true, "client").
             Scan(&u)
 
         return c.JSON(http.StatusOK, u)
