@@ -97,7 +97,11 @@ func IsJoins(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
         u := []DB.IsJoin{}
 
-        db.Where("is_join = ?", true).Find(&u)
+        db.Table("is_joins").
+            Select("is_joins.is_join, is_joins.user_id").
+            Joins("left join auths on auths.user_id = is_joins.user_id").
+            Where("is_joins.is_join = ? AND auths.status = ?", true, "client").
+            Scan(&u)
 
         return c.JSON(http.StatusOK, u)
     }

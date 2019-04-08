@@ -18,7 +18,11 @@ func IsSurvivals(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
         u := []DB.IsSurvival{}
 
-        db.Where("is_survival = ?", true).Find(&u)
+        db.Table("is_survivals").
+            Select("is_survivals.is_survival, is_survivals.user_id").
+            Joins("left join auths on auths.user_id = is_survivals.user_id").
+            Where("is_survivals.is_survival = ? AND auths.status = ?", true, "client").
+            Scan(&u)
 
         return c.JSON(http.StatusOK, u)
     }
