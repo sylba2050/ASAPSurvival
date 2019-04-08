@@ -14,6 +14,25 @@ import (
 
 )
 
+func Login(db *gorm.DB) echo.HandlerFunc {
+    return func(c echo.Context) error {
+        user := new(DB.Auth)
+        if err := c.Bind(user); err != nil {
+            fmt.Fprintln(os.Stderr, err)
+            return err
+        }
+
+        auth := new(DB.Auth)
+        db.Where("user_id = ?", user.UserId).First(&auth)
+
+        if user.UserId == auth.UserId && user.PW == auth.PW {
+            return c.HTML(http.StatusOK, "ok")
+        } else {
+            return c.HTML(http.StatusUnauthorized, "NG")
+        }
+    }
+}
+
 func Create(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
         user := new(DB.Auth)
@@ -27,7 +46,7 @@ func Create(db *gorm.DB) echo.HandlerFunc {
         isUsedUserId := new(DB.Auth)
         db.Where("user_id = ?", user.UserId).First(&isUsedUserId)
         if isUsedUserId.UserId == user.UserId {
-            return c.HTML(http.StatusOK, "NG")
+            return c.HTML(http.StatusBadRequest, "NG")
         }
         //TODO トランザクション
         db.Create(&user)
