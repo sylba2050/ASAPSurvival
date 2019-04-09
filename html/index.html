@@ -10,20 +10,20 @@
 <body>
   <div id="main">
     <div id="main">
+        <section id="me">
+        </section>
         参加: {{is_join.is_join}}
         <br>
         生存: {{is_survival.is_survival}}
         <br>
         <br>
         参加者リスト:
-        <div v-for="join in joins">
-            {{join.userid}}
+        <div v-for="join in joins_userid">
+            {{join}}
+            <span v-if="survivals_userid.indexOf(join) >= 0">生存</span>
+            <span v-else>死亡</span>
         </div>
         <br>
-        生存者リスト:
-        <div v-for="survival in survivals">
-            {{survival.userid}}
-        </div>
         <input type="button" value="dead" v-on:click="dead">
         <input type="button" value="resorn" v-on:click="resporn">
         <input type="button" value="join" v-on:click="join">

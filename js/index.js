@@ -6,6 +6,8 @@ window.onload = function () {
       is_survival: {},
       joins: {},
       survivals: {},
+      joins_userid: [],
+      survivals_userid: [],
       count: 0,
       userid: "",
       auth_code: "",
@@ -25,6 +27,24 @@ window.onload = function () {
     watch: {
         count: function(){
         },
+        joins: function(){
+            var data = [];
+            for(var i in this.joins) {
+                // TODO DB側で処理
+                if(this.joins[i].userid == this.userid) continue;
+                data.push(this.joins[i].userid);
+            }
+            this.joins_userid = data;
+        },
+        survivals: function(){
+            var data = [];
+            for(var i in this.survivals) {
+                // TODO DB側で処理
+                if(this.survivals[i].userid == this.userid) continue;
+                data.push(this.survivals[i].userid);
+            }
+            this.survivals_userid = data;
+        },
     },
     methods: {
         isSurvival : function() {
@@ -34,7 +54,6 @@ window.onload = function () {
             }).then((response) => {
                 return response.json();
             }).then((json) => {
-                console.log(json)
                 this.is_survival = json;
             });
         },
@@ -45,7 +64,6 @@ window.onload = function () {
             }).then((response) => {
                 return response.json();
             }).then((json) => {
-                console.log(json)
                 this.survivals = json;
             });
         },
