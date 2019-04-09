@@ -2,6 +2,7 @@ package User
 
 import (
     "../../struct/DB"
+    "../../utils/sha256"
 
     "os"
     "fmt"
@@ -15,21 +16,21 @@ import (
 
 func GenerateAuthCode(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
+        userid := c.Param("userid")
+
         user := new(DB.Auth)
-        if err := c.Bind(user); err != nil {
-            fmt.Fprintln(os.Stderr, err)
-            return err
-        }
+        db.Where("user_id = ?", userid).First(&user)
 
-        auth := new(DB.Auth)
-        db.Where("user_id = ?", user.UserId).First(&auth)
+        code := new(DB.AuthCode)
+        code.UserId = userid
+        //TODO ランダム生成
+        pass := "code"
 
-        if user.UserId == auth.UserId && user.PW == auth.PW {
-            // TODO ランダム生成&DBへ
-            return c.HTML(http.StatusOK, "code")
-        } else {
-            return c.HTML(http.StatusUnauthorized, "NG")
-        }
+        //TODO updateと切り替え
+        code.Code = sha256.Sha256Sum([]byte(user.UserId + user.PW + pass))
+        db.Create(&code)
+
+        return c.HTML(http.StatusOK, pass)
     }
 }
 
@@ -44,8 +45,10 @@ func Login(db *gorm.DB) echo.HandlerFunc {
         auth := new(DB.AuthCode)
         db.Where("user_id = ?", user.UserId).First(&auth)
 
+        // DBからid, pwを取得, authcode取得ハッシュ計算、 一致か判断
         if user.UserId == auth.UserId && user.Code == auth.Code {
-            return c.NoContent(http.StatusOK)
+            // TODO cを含めてランダム生成&DBへ
+            return c.HTML(http.StatusOK, "code")
         } else {
             return c.HTML(http.StatusUnauthorized, "NG")
         }
@@ -79,7 +82,8 @@ func Create(db *gorm.DB) echo.HandlerFunc {
         join := DB.IsJoin{ UserId: user.UserId, IsJoin: false }
         db.Create(&join)
 
-        return c.HTML(http.StatusOK, "ok")
+        // TODO cを含めてランダム生成&DBへ
+        return c.HTML(http.StatusOK, "code")
     }
 }
 

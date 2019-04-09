@@ -67,8 +67,9 @@ func main() {
     e.File("/", "html/login.html")
     e.File("/create", "html/create.html")
 
-    e.GET("/client/:userid", Contents.Client)
+    e.GET("/client/:userid", Contents.Client(db))
 
+    e.GET("/code/:userid", User.GenerateAuthCode(db))
     e.POST("/login", User.Login(db))
     e.POST("/create", User.Create(db))
     e.POST("/delete/:userid", User.Delete(db))
