@@ -2,6 +2,7 @@ package Survival
 
 import (
     "../../struct/DB"
+    "../../utils/redirect"
 
     _ "os"
     _ "fmt"
@@ -16,6 +17,12 @@ import (
 
 func IsSurvivals(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
+        userid := c.FormValue("userid")
+        code := c.FormValue("code")
+        if !redirect.IsAccurateCode(userid, code, db) {
+            return c.Redirect(http.StatusTemporaryRedirect, "/")
+        }
+
         u := []DB.IsSurvival{}
 
         db.Table("is_survivals").
@@ -32,6 +39,10 @@ func IsSurvivals(db *gorm.DB) echo.HandlerFunc {
 func IsSurvivalMe(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
         userid := c.Param("userid")
+        code := c.FormValue("code")
+        if !redirect.IsAccurateCode(userid, code, db) {
+            return c.Redirect(http.StatusTemporaryRedirect, "/")
+        }
 
         survival := new(DB.IsSurvival)
         db.Where("user_id = ?", userid).First(&survival)
@@ -43,6 +54,10 @@ func IsSurvivalMe(db *gorm.DB) echo.HandlerFunc {
 func Resporn(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
         userid := c.Param("userid")
+        code := c.FormValue("code")
+        if !redirect.IsAccurateCode(userid, code, db) {
+            return c.Redirect(http.StatusTemporaryRedirect, "/")
+        }
 
         survival := new(DB.IsSurvival)
         db.Where("user_id = ?", userid).First(&survival)
@@ -57,6 +72,10 @@ func Resporn(db *gorm.DB) echo.HandlerFunc {
 func Dead(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
         userid := c.Param("userid")
+        code := c.FormValue("code")
+        if !redirect.IsAccurateCode(userid, code, db) {
+            return c.Redirect(http.StatusTemporaryRedirect, "/")
+        }
 
         survival := new(DB.IsSurvival)
         db.Where("user_id = ?", userid).First(&survival)

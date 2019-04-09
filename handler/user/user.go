@@ -3,6 +3,7 @@ package User
 import (
     "../../struct/DB"
     "../../utils/sha256"
+    "../../utils/redirect"
 
     "os"
     "fmt"
@@ -90,6 +91,10 @@ func Create(db *gorm.DB) echo.HandlerFunc {
 func Delete(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
         userid := c.Param("userid")
+        code := c.FormValue("code")
+        if !redirect.IsAccurateCode(userid, code, db) {
+            return c.Redirect(http.StatusTemporaryRedirect, "/")
+        }
 
         //TODO トランザクション
         user := new(DB.Auth)
@@ -111,6 +116,10 @@ func Delete(db *gorm.DB) echo.HandlerFunc {
 func Join(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
         userid := c.Param("userid")
+        code := c.FormValue("code")
+        if !redirect.IsAccurateCode(userid, code, db) {
+            return c.Redirect(http.StatusTemporaryRedirect, "/")
+        }
 
         join := new(DB.IsJoin)
         db.Where("user_id = ?", userid).First(&join)
@@ -125,6 +134,10 @@ func Join(db *gorm.DB) echo.HandlerFunc {
 func DontJoin(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
         userid := c.Param("userid")
+        code := c.FormValue("code")
+        if !redirect.IsAccurateCode(userid, code, db) {
+            return c.Redirect(http.StatusTemporaryRedirect, "/")
+        }
 
         join := new(DB.IsJoin)
         db.Where("user_id = ?", userid).First(&join)
@@ -138,6 +151,12 @@ func DontJoin(db *gorm.DB) echo.HandlerFunc {
 
 func IsJoins(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
+        userid := c.FormValue("userid")
+        code := c.FormValue("code")
+        if !redirect.IsAccurateCode(userid, code, db) {
+            return c.Redirect(http.StatusTemporaryRedirect, "/")
+        }
+
         u := []DB.IsJoin{}
 
         db.Table("is_joins").
@@ -153,6 +172,10 @@ func IsJoins(db *gorm.DB) echo.HandlerFunc {
 func IsJoinMe(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
         userid := c.Param("userid")
+        code := c.FormValue("code")
+        if !redirect.IsAccurateCode(userid, code, db) {
+            return c.Redirect(http.StatusTemporaryRedirect, "/")
+        }
 
         join := new(DB.IsJoin)
         db.Where("user_id = ?", userid).First(&join)
