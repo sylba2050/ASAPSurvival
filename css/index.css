@@ -1,3 +1,23 @@
+/* iOSでのデフォルトスタイルをリセット */
+input[type="submit"],
+input[type="button"] {
+    border-radius: 0;
+    -webkit-box-sizing: content-box;
+    -webkit-appearance: button;
+    appearance: button;
+    border: none;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+input[type="submit"]::-webkit-search-decoration,
+input[type="button"]::-webkit-search-decoration {
+    display: none;
+}
+input[type="submit"]::focus,
+input[type="button"]::focus {
+    outline-offset: -2px;
+}
+
 body, html{
     overflow: hidden;
     position: relative;
@@ -85,4 +105,29 @@ body, html{
     height: 60vh;
     width: 50vw;
     background-color:black;
+}
+
+#chat_button_area {
+    height: 35vh;
+    width: 99vw;
+    margin-top: 10px;
+}
+
+.chat_flex_area {
+    height: 50%;
+    width: 100%;
+}
+
+.chat_button {
+    width: 49vw;
+    height: 15vh;
+    line-height: 15vh;
+    text-align: center;
+    display: inline-block;
+    background: #9b4dca;
+    color: #fff;
+    text-decoration: none;
+    font-size: 5vh;
+    border-radius: 10px;
+    margin: auto;
 }
