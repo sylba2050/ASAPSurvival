@@ -18,36 +18,36 @@ func GenerateAuthCode(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
         userid := c.Param("userid")
 
-        user := new(DB.Auth)
-        db.Where("user_id = ?", userid).First(&user)
-
         code := new(DB.AuthCode)
         code.UserId = userid
-        //TODO ランダム生成
-        pass := "code"
+        //TODO ランダム生成(env?sha256?)
+        code.Code = "code"
 
         //TODO updateと切り替え
-        code.Code = sha256.Sha256Sum([]byte(user.UserId + user.PW + pass))
         db.Create(&code)
 
-        return c.HTML(http.StatusOK, pass)
+        return c.HTML(http.StatusOK, code.Code)
     }
 }
 
 func Login(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
-        user := new(DB.AuthCode)
-        if err := c.Bind(user); err != nil {
+        form_data := new(DB.AuthCode)
+        if err := c.Bind(form_data); err != nil {
             fmt.Fprintln(os.Stderr, err)
             return err
         }
 
-        auth := new(DB.AuthCode)
-        db.Where("user_id = ?", user.UserId).First(&auth)
+        // TODO クエリの単一化
+        user := new(DB.Auth)
+        db.Where("user_id = ?", form_data.UserId).First(&user)
+        // TODO 最新のみ取得
+        code := new(DB.AuthCode)
+        db.Where("user_id = ?", form_data.UserId).First(&code)
 
-        // DBからid, pwを取得, authcode取得ハッシュ計算、 一致か判断
-        if user.UserId == auth.UserId && user.Code == auth.Code {
-            // TODO cを含めてランダム生成&DBへ
+        auth := sha256.Sha256Sum([]byte(user.UserId + user.PW + code.Code))
+
+        if form_data.Code == auth {
             return c.HTML(http.StatusOK, "code")
         } else {
             return c.HTML(http.StatusUnauthorized, "NG")

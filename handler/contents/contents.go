@@ -2,6 +2,7 @@ package Contents
 
 import (
     "../../struct/DB"
+    "../../utils/sha256"
 
     "github.com/labstack/echo"
 
@@ -15,9 +16,15 @@ func Client(db *gorm.DB) echo.HandlerFunc {
         userid := c.Param("userid")
         code := c.FormValue("code")
 
+        // TODO クエリの単一化
+        user := new(DB.Auth)
+        db.Where("user_id = ?", userid).First(&user)
         auth := new(DB.AuthCode)
         db.Where("user_id = ?", userid).First(&auth)
-        if code != auth.Code {
+
+        hash := sha256.Sha256Sum([]byte(userid + user.PW + auth.Code))
+
+        if code != hash || code == "" {
             return c.Redirect(http.StatusTemporaryRedirect, "/")
         }
 
