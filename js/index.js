@@ -11,6 +11,7 @@ window.onload = function () {
       count: 0,
       userid: "",
       auth_code: "",
+      active_chat: "default",
     },
     created: function(){
         setInterval(() => { this.count++ }, 1000)
@@ -164,6 +165,9 @@ window.onload = function () {
         },
         checkSurvivalById : function(id) {
             return (this.survivals_userid.indexOf(id) >= 0)
+        },
+        setActiveChat : function(chatCode) {
+            this.active_chat = chatCode
         }
     },
   })

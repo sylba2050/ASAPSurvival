@@ -11,7 +11,7 @@
     <div id="main">
         <div id="content" class="flex">
             <div id="people">
-                <section class="me flex">
+                <section class="me flex light_gray">
                     <div class="icon_area">
                         <img src="/img/default.png" alt="icon" class="icon">
                     </div>
@@ -48,16 +48,61 @@
             <section id="chat_area">
             </section>
         </div>
-        <div id="chat_button_area">
+
+        <section id="default_chat" class="chat_button_area" v-if="active_chat=='default'">
             <div class="chat_flex_area flex">
-                <input id="reply" class="chat_button" type="button" value="返答系 : REPLY" v-on:click="">
-                <input id="reply" class="chat_button" type="button" value="緊急系 : EMERGENCY" v-on:click="">
+                <input class="chat_button red" type="button" value="返答系 : REPLY" v-on:click="setActiveChat('reply')">
+                <input class="chat_button orange" type="button" value="緊急系 : EMERGENCY" v-on:click="setActiveChat('emergency')">
             </div>
             <div class="chat_flex_area flex">
-                <input id="reply" class="chat_button" type="button" value="支持系 : OREDER" v-on:click="">
-                <input id="reply" class="chat_button" type="button" value="挨拶系 : GREETING" v-on:click="">
+                <input class="chat_button gray" type="button" value="支持系 : OREDER" v-on:click="setActiveChat('oreder')">
+                <input class="chat_button green" type="button" value="挨拶系 : GREETING" v-on:click="setActiveChat('greeting')">
             </div>
-        </div>
+        </section>
+
+        <section id="default_reply" class="chat_button_area" v-if="active_chat=='reply'">
+            <div class="chat_flex_area flex">
+                <input class="chat_button red" type="button" value="了解!" v-on:click="">
+                <input class="chat_button red" type="button" value="ただいま動けません!" v-on:click="">
+            </div>
+            <div class="chat_flex_area flex">
+                <input class="chat_button red" type="button" value="すぐに行きます!" v-on:click="">
+                <input class="chat_button gray" type="button" value="キャンセル" v-on:click="setActiveChat('default')">
+            </div>
+        </section>
+
+        <section id="default_emergency" class="chat_button_area" v-if="active_chat=='emergency'">
+            <div class="chat_flex_area flex">
+                <input class="chat_button orange" type="button" value="返答系 : REPLY" v-on:click="">
+                <input class="chat_button orange" type="button" value="緊急系 : EMERGENCY" v-on:click="">
+            </div>
+            <div class="chat_flex_area flex">
+                <input class="chat_button orange" type="button" value="支持系 : OREDER" v-on:click="">
+                <input class="chat_button gray" type="button" value="キャンセル" v-on:click="setActiveChat('default')">
+            </div>
+        </section>
+
+        <section id="default_oerder" class="chat_button_area" v-if="active_chat=='oreder'">
+            <div class="chat_flex_area flex">
+                <input class="chat_button gray" type="button" value="返答系 : REPLY" v-on:click="">
+                <input class="chat_button gray" type="button" value="緊急系 : EMERGENCY" v-on:click="">
+            </div>
+            <div class="chat_flex_area flex">
+                <input class="chat_button gray" type="button" value="支持系 : OREDER" v-on:click="">
+                <input class="chat_button gray" type="button" value="キャンセル" v-on:click="setActiveChat('default')">
+            </div>
+        </section>
+
+        <section id="default_greeting" class="chat_button_area" v-if="active_chat=='greeting'">
+            <div class="chat_flex_area flex">
+                <input class="chat_button green" type="button" value="返答系 : REPLY" v-on:click="">
+                <input class="chat_button green" type="button" value="緊急系 : EMERGENCY" v-on:click="">
+            </div>
+            <div class="chat_flex_area flex">
+                <input class="chat_button green" type="button" value="支持系 : OREDER" v-on:click="">
+                <input class="chat_button gray" type="button" value="キャンセル" v-on:click="setActiveChat('default')">
+            </div>
+        </section>
 
         <br>
         <br>

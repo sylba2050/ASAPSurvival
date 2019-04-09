@@ -31,7 +31,7 @@ body, html{
 .me {
     height: 10vh;
     width: 48vw;
-    background-color:gray;
+    margin: auto;
 }
 
 .icon_area {
@@ -45,7 +45,7 @@ body, html{
 }
 
 .name_area {
-    height: 70%;
+    height: 60%;
     width: 100%;
 }
 
@@ -85,20 +85,37 @@ body, html{
     width: 50vw;
     overflow: scroll;
     margin: 0;
+    margin: auto;
 }
 
 .others {
     height: 10vh;
     width: 48vw;
-    margin-top: 15px;
+    margin: 15px auto auto auto;
 }
 
 .red {
-    background-color:red;
+    background-color: #E9546B;
 }
 
 .green {
-    background-color:green;
+    background-color: #AACF52;
+}
+
+.purple {
+    background-color: #9B4DCA;
+}
+
+.gray {
+    background-color:gray;
+}
+
+.light_gray {
+    background-color: #DCDCDC;
+}
+
+.orange {
+    background-color:orange;
 }
 
 #chat_area {
@@ -107,7 +124,7 @@ body, html{
     background-color:black;
 }
 
-#chat_button_area {
+.chat_button_area {
     height: 35vh;
     width: 99vw;
     margin-top: 10px;
@@ -124,7 +141,6 @@ body, html{
     line-height: 15vh;
     text-align: center;
     display: inline-block;
-    background: #9b4dca;
     color: #fff;
     text-decoration: none;
     font-size: 5vh;
