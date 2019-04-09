@@ -46,9 +46,6 @@ func main() {
     db.AutoMigrate(&DB.Team{})
     db.AutoMigrate(&DB.AuthCode{})
 
-    e.Renderer = &Renderer{
-        templates: template.Must(template.ParseGlob("views/*.html")),
-    }
     e.Static("/js", "js")
     e.Static("/css", "css")
     e.Static("/img", "img")
