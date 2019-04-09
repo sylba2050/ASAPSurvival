@@ -162,6 +162,9 @@ window.onload = function () {
             }
             return arr;
         },
+        checkSurvivalById : function(id) {
+            return (this.survivals_userid.indexOf(id) >= 0)
+        }
     },
   })
 }
