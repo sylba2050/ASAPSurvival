@@ -44,6 +44,7 @@ func main() {
     db.AutoMigrate(&DB.IsSurvival{})
     db.AutoMigrate(&DB.IsJoin{})
     db.AutoMigrate(&DB.Team{})
+    db.AutoMigrate(&DB.AuthCode{})
 
     e.Renderer = &Renderer{
         templates: template.Must(template.ParseGlob("views/*.html")),
