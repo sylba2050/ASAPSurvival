@@ -1,0 +1,34 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>メイン</title>
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="/js/index.js"></script>
+</head>
+<body>
+  <div id="main">
+    <div id="main">
+        参加: {{is_join.is_join}}
+        <br>
+        生存: {{is_survival.is_survival}}
+        <br>
+        <br>
+        参加者リスト:
+        <div v-for="join in joins">
+            {{join.userid}}
+        </div>
+        <br>
+        生存者リスト:
+        <div v-for="survival in survivals">
+            {{survival.userid}}
+        </div>
+        <input type="button" value="dead" v-on:click="dead">
+        <input type="button" value="resorn" v-on:click="resporn">
+        <input type="button" value="join" v-on:click="join">
+        <input type="button" value="breaktime" v-on:click="breaktime">
+    </div>
+  <div>
+</body>
+</html>

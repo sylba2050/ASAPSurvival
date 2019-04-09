@@ -16,6 +16,7 @@ window.onload = function () {
         var cookie = this.getCookie();
         this.userid = cookie["userid"];
         this.auth_code = cookie["code"];
+
         this.isSurvival();
         this.isJoin();
         this.getSurvivals();
@@ -23,10 +24,6 @@ window.onload = function () {
     },
     watch: {
         count: function(){
-            console.log(this.joins);
-            console.log(this.survivals);
-            console.log(this.is_join);
-            console.log(this.is_survival);
         },
     },
     methods: {
@@ -70,6 +67,70 @@ window.onload = function () {
                 return response.json();
             }).then((json) => {
                 this.joins = json;
+            });
+        },
+        dead : function() {
+            fetch("/dead/" + this.userid + "?code=" + this.auth_code, {
+                method: 'POST',
+                mode: 'cors',
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();
+                    console.log("OK");
+                } else if (response.status == 307) {
+                    location.href='/'
+                } else {
+                    // TODO: erorr表示
+                    console.log("NG");
+                }
+            });
+        },
+        resporn : function() {
+            fetch("/resporn/" + this.userid + "?code=" + this.auth_code, {
+                method: 'POST',
+                mode: 'cors',
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();
+                    console.log("OK");
+                } else if (response.status == 307) {
+                    location.href='/'
+                } else {
+                    // TODO: erorr表示
+                    console.log("NG");
+                }
+            });
+        },
+        join : function() {
+            fetch("/join/" + this.userid + "?code=" + this.auth_code, {
+                method: 'POST',
+                mode: 'cors',
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();
+                    console.log("OK");
+                } else if (response.status == 307) {
+                    location.href='/'
+                } else {
+                    // TODO: erorr表示
+                    console.log("NG");
+                }
+            });
+        },
+        breaktime : function() {
+            fetch("/dontjoin/" + this.userid + "?code=" + this.auth_code, {
+                method: 'POST',
+                mode: 'cors',
+            }).then(response => {
+                if (response.ok) {
+                    console.log("OK");
+                    location.reload();
+                } else if (response.status == 307) {
+                    location.href='/'
+                } else {
+                    // TODO: erorr表示
+                    console.log("NG");
+                }
             });
         },
         getCookie : function() {
