@@ -1,6 +1,20 @@
 {{define "index"}}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>メイン</title>
+    <link rel="stylesheet" type="text/css" href="/css/index.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="/js/index.js"></script>
+</head>
+<body>
+  <div id="main">
     <div id="main">
-        <h1>{{.User}}</h1>
-        <h1>{{.Code}}</h1>
+        <div style="visibility:hidden;" id="userid">{{.User}}</div>
+        <div style="visibility:hidden;" id="auth_code">{{.Code}}</div>
     </div>
+  <div>
+</body>
+</html>
 {{end}}
