@@ -10,13 +10,38 @@
 <body>
   <div id="main">
     <div id="main">
-        <section id="me">
+        <section id="me" class="flex">
+            <div id="icon_area">
+                <img src="/img/default.png" alt="icon" class="icon">
+            </div>
+            <div id="my_status">
+                <div id="name_area">
+                    <div id="my_id">{{userid}}</div>
+                </div>
+                <div id="status_area">
+                    <div id="is_join">
+                        <div v-if="is_join.is_join">参加中</div>
+                        <div v-else>休憩中</div>
+                    </div>
+                    <div id="is_survival">
+                        <div v-if="is_survival.is_survival">生存中</div>
+                        <div v-else>死亡中</div>
+                    </div>
+                </div>
+            </div>
         </section>
-        参加: {{is_join.is_join}}
+
+        <section id="others">
+        </section>
+
+        <section id="chat_area">
+        </section>
+
         <br>
-        生存: {{is_survival.is_survival}}
         <br>
         <br>
+        <br>
+
         参加者リスト:
         <div v-for="join in joins_userid">
             {{join}}

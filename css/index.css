@@ -1,0 +1,54 @@
+#me {
+    height: 10vh;
+    width: 50vh;
+}
+
+#icon_area {
+    height: 100%;
+    width: 20%;
+}
+
+#my_status {
+    height: 100%;
+    width: 80%;
+}
+
+#name_area {
+    height: 70%;
+    width: 100%;
+}
+
+#status_area {
+    height: 30%;
+    width: 100%;
+}
+
+#my_id {
+    font-size: 4vh;
+    display: inline-block;
+    margin: 0 10px;
+}
+
+#is_join {
+    display: inline-block;
+    font-size: 2vh;
+    margin: 0 10px;
+}
+
+#is_survival {
+    display: inline-block;
+    font-size: 2vh;
+    margin: 0 10px;
+}
+
+.flex{
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+}
+
+.icon {
+    height: 10vh;
+}

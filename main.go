@@ -51,6 +51,7 @@ func main() {
     }
     e.Static("/js", "js")
     e.Static("/css", "css")
+    e.Static("/img", "img")
 
     a := e.Group("/admin")
     a.Use(middleware.BasicAuth(func(username, password string, c echo.Context) (bool, error) {
