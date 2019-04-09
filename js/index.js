@@ -12,8 +12,10 @@ window.onload = function () {
     },
     created: function(){
         setInterval(() => { this.count++ }, 1000)
-        this.userid = document.getElementById("userid").innerHTML;
-        this.auth_code = document.getElementById("auth_code").innerHTML;
+
+        var cookie = this.getCookie();
+        this.userid = cookie["userid"];
+        this.auth_code = cookie["code"];
         this.isSurvival();
         this.isJoin();
         this.getSurvivals();
@@ -69,6 +71,17 @@ window.onload = function () {
             }).then((json) => {
                 this.joins = json;
             });
+        },
+        getCookie : function() {
+            var arr = new Array();
+            if(document.cookie != ''){
+                var tmp = document.cookie.split('; ');
+                for(var i=0;i<tmp.length;i++){
+                    var data = tmp[i].split('=');
+                    arr[data[0]] = decodeURIComponent(data[1]);
+                }
+            }
+            return arr;
         },
     },
   })

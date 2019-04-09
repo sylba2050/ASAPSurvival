@@ -29,6 +29,9 @@ window.onload = function () {
                 body: JSON.stringify(user)
             }).then(response => {
                 if (response.ok) {
+                    document.cookie = "userid=" + user.userid;
+                    document.cookie = "code=" + user.code;
+
                     location.href='/client/' + user.userid + '?code=' + user.code
                 } else if (response.status == 401) {
                     // TODO: erorr表示

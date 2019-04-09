@@ -18,15 +18,7 @@ func Client(db *gorm.DB) echo.HandlerFunc {
             return c.Redirect(http.StatusTemporaryRedirect, "/")
         }
 
-        data := struct {
-            User string
-            Code string
-        } {
-            userid,
-            code,
-        }
-
-        return c.Render(http.StatusOK, "index", data)
+        return c.File("html/index.html")
     }
 }
 
