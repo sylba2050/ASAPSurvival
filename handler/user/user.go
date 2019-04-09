@@ -44,7 +44,7 @@ func Login(db *gorm.DB) echo.HandlerFunc {
         db.Where("user_id = ?", form_data.UserId).First(&user)
         // TODO 最新のみ取得
         code := new(DB.AuthCode)
-        db.Where("user_id = ?", form_data.UserId).First(&code)
+        db.Where("user_id = ?", form_data.UserId).Last(&code)
 
         auth := sha256.Sha256Sum([]byte(user.UserId + user.PW + code.Code))
 

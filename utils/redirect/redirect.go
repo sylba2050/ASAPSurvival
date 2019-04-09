@@ -14,7 +14,7 @@ func IsAccurateCode (userid, code string, db *gorm.DB) bool {
     user := new(DB.Auth)
     db.Where("user_id = ?", userid).First(&user)
     auth := new(DB.AuthCode)
-    db.Where("user_id = ?", userid).First(&auth)
+    db.Where("user_id = ?", userid).Last(&auth)
 
     hash := sha256.Sha256Sum([]byte(userid + user.PW + auth.Code))
 
