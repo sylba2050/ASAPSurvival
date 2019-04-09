@@ -12,6 +12,12 @@ type Auth struct {
     Status string `json:"status" form:"status" query:"status"`
 }
 
+type AuthCode struct {
+    gorm.Model
+    UserId string `json:"userid" form:"userid" query:"userid"`
+    Code string `json:"code" form:"code" query:"code"`
+}
+
 type IsJoin struct {
     gorm.Model
     UserId string `json:"userid" form:"userid" query:"userid"`

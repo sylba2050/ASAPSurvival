@@ -13,7 +13,7 @@ import (
     _ "github.com/mattn/go-sqlite3"
 )
 
-func Login(db *gorm.DB) echo.HandlerFunc {
+func GenerateAuthCode(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
         user := new(DB.Auth)
         if err := c.Bind(user); err != nil {
@@ -25,6 +25,26 @@ func Login(db *gorm.DB) echo.HandlerFunc {
         db.Where("user_id = ?", user.UserId).First(&auth)
 
         if user.UserId == auth.UserId && user.PW == auth.PW {
+            // TODO ランダム生成&DBへ
+            return c.HTML(http.StatusOK, "code")
+        } else {
+            return c.HTML(http.StatusUnauthorized, "NG")
+        }
+    }
+}
+
+func Login(db *gorm.DB) echo.HandlerFunc {
+    return func(c echo.Context) error {
+        user := new(DB.AuthCode)
+        if err := c.Bind(user); err != nil {
+            fmt.Fprintln(os.Stderr, err)
+            return err
+        }
+
+        auth := new(DB.AuthCode)
+        db.Where("user_id = ?", user.UserId).First(&auth)
+
+        if user.UserId == auth.UserId && user.Code == auth.Code {
             return c.NoContent(http.StatusOK)
         } else {
             return c.HTML(http.StatusUnauthorized, "NG")
