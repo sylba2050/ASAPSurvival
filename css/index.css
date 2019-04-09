@@ -1,3 +1,9 @@
+body, html{
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+}
+
 .icon {
     height: 10vh;
 }
