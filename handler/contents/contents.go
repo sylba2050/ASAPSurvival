@@ -1,23 +1,17 @@
 package Contents
 
 import (
-    "../../utils/redirect"
+    _ "../../utils/redirect"
 
     "github.com/labstack/echo"
 
-    "net/http"
+    _ "net/http"
     "github.com/jinzhu/gorm"
     _ "github.com/mattn/go-sqlite3"
 )
 
 func Client(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
-        userid := c.Param("userid")
-        code := c.FormValue("code")
-        if !redirect.IsAccurateCode(userid, code, db) {
-            return c.Redirect(http.StatusTemporaryRedirect, "/")
-        }
-
         return c.File("html/index.html")
     }
 }

@@ -33,7 +33,7 @@ window.onload = function () {
                     document.cookie = "userid=" + user.userid;
                     document.cookie = "code=" + code;
 
-                    location.href='/client/' + user.userid + '?code=' + code
+                    location.href='/client/' + user.userid
                 } else if (response.status == 400) {
                     // TODO: erorr
                     console.log(response.status);
