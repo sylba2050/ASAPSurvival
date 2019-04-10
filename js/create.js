@@ -4,16 +4,22 @@ window.onload = function () {
     data: {
       id: "",
       password: "",
+      auth_code: "",
     },
     created: function(){
     },
     watch: {
-    },
-    methods: {
-        post : function() {
+        auth_code: function() {
             var user = {};
             user.userid = this.id;
             user.pw = this.password;
+
+            var shaObj = new jsSHA("SHA-256", "TEXT");
+            shaObj.update(this.id);
+            shaObj.update(this.password);
+            shaObj.update(this.auth_code);
+
+            var code = shaObj.getHash("HEX");
 
             fetch("/create", {
                 method: 'POST',
@@ -24,13 +30,33 @@ window.onload = function () {
                 body: JSON.stringify(user)
             }).then(response => {
                 if (response.ok) {
-                    location.href='/client/' + user.userid;
+                    document.cookie = "userid=" + user.userid;
+                    document.cookie = "code=" + code;
+
+                    location.href='/client/' + user.userid + '?code=' + code
                 } else if (response.status == 400) {
                     // TODO: erorr
                     console.log(response.status);
                 } else {
                     console.log("NG");
                 }
+            });
+        }
+    },
+    methods: {
+        post : function() {
+            fetch("/code/" + this.id, {
+                method: 'GET',
+                mode: 'cors',
+            }).then(response => {
+                if (response.ok) {
+                    return response.text()
+                } else {
+                    console.log("NG");
+                    throw new Error();
+                }
+            }).then(text =>{
+                this.auth_code = text
             });
         }
     }

@@ -6,15 +6,17 @@
     <link rel="stylesheet" type="text/css" href="/css/login.css">
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="/js/sha256.js"></script>
     <script src="/js/create.js"></script>
 </head>
 <body>
   <div id="main">
     <input type="text" id="user_id" maxlength="20" placeholder="id" style="display:flex;" v-model="id">
-    <input type="text" id="password" maxlength="20" placeholder="password" style="display:flex;" v-model="password">
-    <input type="button" id="send" value="ログイン" style="display:flex; float:right;" onClick="location.href='/'">
-
+    <input type="password" id="password" maxlength="20" placeholder="password" style="display:flex;" v-model="password">
     <input type="button" id="send" value="アカウント作成" style="display:flex;" v-on:click="post">
+    <div>
+        ログインは<span><a href="/">こちら</a></span>
+    </div>
   <div>
 </body>
 </html>

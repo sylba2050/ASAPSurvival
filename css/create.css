@@ -1,0 +1,23 @@
+#user_id {
+    font-size: 4vh;
+    height: 10vh;
+    width: 30vw;
+    display: flex;
+}
+
+#password {
+    font-size: 4vh;
+    height: 10vh;
+    width: 30vw;
+    display: flex;
+}
+
+#send {
+    height: 10vh;
+    width: 30vw;
+    display: inline-block;
+    color: #FFF;
+    background-color: #E9546B;
+    font-size: 5vh;
+    border-radius: 10px;
+}
