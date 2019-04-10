@@ -17,7 +17,34 @@
     width: 30vw;
     display: inline-block;
     color: #FFF;
-    background-color: #E9546B;
     font-size: 5vh;
     border-radius: 10px;
+}
+
+.red {
+    background-color: #E9546B;
+}
+
+.blue {
+    background-color: #87CEFA;
+}
+
+.green {
+    background-color: #AACF52;
+}
+
+.purple {
+    background-color: #9B4DCA;
+}
+
+.gray {
+    background-color:gray;
+}
+
+.light_gray {
+    background-color: #DCDCDC;
+}
+
+.orange {
+    background-color:orange;
 }
