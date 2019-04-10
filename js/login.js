@@ -36,10 +36,9 @@ window.onload = function () {
                 } else if (response.status == 401) {
                     // TODO: erorr表示
                     console.log(response.status);
-                    throw new Error();
+                    location.reload();
                 } else {
                     console.log("NG");
-                    throw new Error();
                 }
             });
         },

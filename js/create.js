@@ -37,6 +37,7 @@ window.onload = function () {
                 } else if (response.status == 400) {
                     // TODO: erorr
                     console.log(response.status);
+                    location.reload();
                 } else {
                     console.log("NG");
                 }
