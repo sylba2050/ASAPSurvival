@@ -28,6 +28,8 @@ window.onload = function () {
     },
     watch: {
         count: function(){
+            this.getSurvivals();
+            this.getJoins();
         },
         joins: function(){
             var data = [];
