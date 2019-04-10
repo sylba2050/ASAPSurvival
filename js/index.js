@@ -33,7 +33,7 @@ window.onload = function () {
         },
         joins: function(){
             var data = [];
-            for(var i in this.joins) {
+            for (var i in this.joins) {
                 // TODO DB側で処理
                 if(this.joins[i].userid == this.userid) continue;
                 data.push(this.joins[i].userid);
@@ -180,6 +180,13 @@ window.onload = function () {
                 this.dead();
             } else {
                 this.resporn();
+            }
+        },
+        joinOrBreakTimeFromNowStatus : function() {
+            if (this.is_join.is_join) {
+                this.breaktime();
+            } else {
+                this.join();
             }
         },
     },
