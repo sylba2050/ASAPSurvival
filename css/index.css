@@ -28,6 +28,51 @@ body, html{
     height: 10vh;
 }
 
+#hit_call {
+    height: 100vh;
+    width: 100vw;
+    z-index: 2;
+    position:absolute;
+    /* 子要素を不透明化 */
+    background: rgba(45,45,45, 0.5);
+    text-align: center;
+}
+
+#hit_call_and_cancel_button_area {
+    height: 30vh;
+    margin: 30vh auto;
+}
+
+#confirmation_dead_or_alive {
+    height: 15vh;
+    text-align: center;
+    vertical-align: middle;
+    margin: auto;
+}
+
+.confirmation_dead_or_alive_text {
+    text-align: center;
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+    font-size: 5vh;
+    border-radius: 10px;
+    margin: auto;
+}
+
+#dead_or_alive_button_area {
+}
+
+.dead_or_alive_button {
+    height: 15vh;
+    width: 30vw;
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    font-size: 5vh;
+    margin: auto;
+}
+
 .me {
     height: 10vh;
     width: 48vw;
@@ -96,6 +141,10 @@ body, html{
 
 .red {
     background-color: #E9546B;
+}
+
+.blue {
+    background-color: #87CEFA;
 }
 
 .green {

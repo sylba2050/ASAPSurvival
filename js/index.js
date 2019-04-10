@@ -12,6 +12,7 @@ window.onload = function () {
       userid: "",
       auth_code: "",
       active_chat: "default",
+      is_dead_or_resporn_active: false,
     },
     created: function(){
         setInterval(() => { this.count++ }, 1000)
@@ -168,7 +169,17 @@ window.onload = function () {
         },
         setActiveChat : function(chatCode) {
             this.active_chat = chatCode
-        }
+        },
+        switchDeadOrRespornButtonActive : function(chatCode) {
+            this.is_dead_or_resporn_active = !this.is_dead_or_resporn_active
+        },
+        deadOrRespornFromNowStatus : function() {
+            if (this.is_survival.is_survival) {
+                this.dead();
+            } else {
+                this.resporn();
+            }
+        },
     },
   })
 }
