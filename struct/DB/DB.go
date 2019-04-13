@@ -33,5 +33,14 @@ type IsSurvival struct {
 type Team struct {
     gorm.Model
     UserId string `json:"userid" form:"userid" query:"userid"`
-    Team bool `json:"team" form:"team" query:"team"`
+    Team string `json:"team" form:"team" query:"team"`
+}
+
+type Chat struct {
+    gorm.Model
+    Content string `json:"content" form:"content" query:"content"`
+    // ;区切り
+    TargetUserId string `json:"target" form:"target" query:"target"`
+    // ;区切り
+    TargetTeam string `json:"target_team" form:"target_team" query:"target_team"`
 }

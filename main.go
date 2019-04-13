@@ -4,6 +4,7 @@ import (
     "./handler/user"
     "./handler/survival"
     "./handler/contents"
+    "./handler/chat"
     "./struct/DB"
 
     "github.com/labstack/echo"
@@ -45,6 +46,7 @@ func main() {
     db.AutoMigrate(&DB.IsJoin{})
     db.AutoMigrate(&DB.Team{})
     db.AutoMigrate(&DB.AuthCode{})
+    db.AutoMigrate(&DB.Chat{})
 
     e.Static("/js", "js")
     e.Static("/css", "css")
@@ -82,6 +84,9 @@ func main() {
     e.POST("/dontjoin/:userid", User.DontJoin(db))
     e.POST("/resporn/:userid", Survival.Resporn(db))
     e.POST("/dead/:userid", Survival.Dead(db))
+
+    e.GET("/chat", Chat.Read(db))
+    e.POST("/chat", Chat.Create(db))
 
     e.Start(":8080")
 }

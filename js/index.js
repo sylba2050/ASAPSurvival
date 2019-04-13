@@ -10,6 +10,7 @@ window.onload = function () {
       survivals_userid: [],
       count: 0,
       userid: "",
+      team: "yellow",
       auth_code: "",
       active_chat: "default",
       is_dead_or_resporn_active: false,
@@ -188,6 +189,40 @@ window.onload = function () {
             } else {
                 this.join();
             }
+        },
+        sendChat : function(content, target) {
+            var chat = {};
+            chat.content = content;
+            chat.target = this.userid;
+            chat.target_team = this.team;
+
+            fetch("/chat?userid=" + this.userid + "&code=" + this.auth_code, {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(chat)
+            }).then(response => {
+                if (response.ok) {
+                    console.log("OK");
+                } else if (response.status == 307) {
+                    location.href='/'
+                } else {
+                    // TODO: erorr表示
+                    console.log("NG");
+                }
+            });
+        },
+        getChat : function(content) {
+            fetch("/chat?userid=" + this.userid + "&code=" + this.auth_code, {
+                method: 'GET',
+                mode: 'cors',
+            }).then((response) => {
+                return response.json();
+            }).then((json) => {
+                console.log(json);
+            });
         },
     },
   })

@@ -42,7 +42,6 @@ func Login(db *gorm.DB) echo.HandlerFunc {
         // TODO クエリの単一化
         user := new(DB.Auth)
         db.Where("user_id = ?", form_data.UserId).First(&user)
-        // TODO 最新のみ取得
         code := new(DB.AuthCode)
         db.Where("user_id = ?", form_data.UserId).Last(&code)
 
@@ -82,6 +81,9 @@ func Create(db *gorm.DB) echo.HandlerFunc {
 
         join := DB.IsJoin{ UserId: user.UserId, IsJoin: false }
         db.Create(&join)
+
+        team := DB.Team{ UserId: user.UserId, Team: "yellow" }
+        db.Create(&team)
 
         // TODO cを含めてランダム生成&DBへ
         return c.HTML(http.StatusOK, "code")
