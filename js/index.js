@@ -190,7 +190,7 @@ window.onload = function () {
                 this.join();
             }
         },
-        sendChat : function(content, target) {
+        sendChat : function(content) {
             var chat = {};
             chat.content = content;
             chat.target = this.userid;
@@ -214,7 +214,7 @@ window.onload = function () {
                 }
             });
         },
-        getChat : function(content) {
+        getChat : function() {
             fetch("/chat?userid=" + this.userid + "&code=" + this.auth_code, {
                 method: 'GET',
                 mode: 'cors',
