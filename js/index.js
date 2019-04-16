@@ -6,6 +6,7 @@ window.onload = function () {
       is_survival: {},
       joins: {},
       survivals: {},
+      chats: {},
       joins_userid: [],
       survivals_userid: [],
       count: 0,
@@ -22,6 +23,8 @@ window.onload = function () {
         this.userid = cookie["userid"];
         this.auth_code = cookie["code"];
 
+        this.getChat();
+
         this.isSurvival();
         this.isJoin();
         this.getSurvivals();
@@ -31,6 +34,7 @@ window.onload = function () {
         count: function(){
             this.getSurvivals();
             this.getJoins();
+            this.getChat();
         },
         joins: function(){
             var data = [];
@@ -195,6 +199,7 @@ window.onload = function () {
             chat.content = content;
             chat.target = this.userid;
             chat.target_team = this.team;
+            chat.send_user_id = this.userid;
 
             fetch("/chat?userid=" + this.userid + "&code=" + this.auth_code, {
                 method: 'POST',
@@ -221,7 +226,8 @@ window.onload = function () {
             }).then((response) => {
                 return response.json();
             }).then((json) => {
-                console.log(json);
+                this.chats = json;
+                this.chats = this.chats.reverse();
             });
         },
     },

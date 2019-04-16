@@ -43,4 +43,5 @@ type Chat struct {
     TargetUserId string `json:"target" form:"target" query:"target"`
     // ;区切り
     TargetTeam string `json:"target_team" form:"target_team" query:"target_team"`
+    SendUserId string `json:"send_user_id" form:"send_user_id" query:"send_user_id"`
 }
