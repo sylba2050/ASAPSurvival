@@ -230,6 +230,9 @@ window.onload = function () {
                 this.chats = this.chats.reverse();
             });
         },
+        redirect_by_url : function(url) {
+            location.href = url;
+        },
     },
   })
 }

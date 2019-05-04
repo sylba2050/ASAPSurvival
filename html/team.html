@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>チーム選択</title>
+    <link rel="stylesheet" type="text/css" href="/css/team.css" />
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="/js/team.js"></script>
+  </head>
+  <body>
+    <div id="main">
+
+      <input
+        type="button"
+        id="join_red_team"
+        class="red"
+        value="赤"
+        v-on:click="sendJoinTeam('red')"
+      />
+
+      <input
+        type="button"
+        id="join_yellow_team"
+        class="orange"
+        value="黄"
+        v-on:click="sendJoinTeam('orange')"
+      />
+
+      <input
+        type="button"
+        id="join_blue_team"
+        class="blue"
+        value="青"
+        v-on:click="sendJoinTeam('blue')"
+      />
+
+      <input
+        type="button"
+        id="join_green_team"
+        class="green"
+        value="緑"
+        v-on:click="sendJoinTeam('green')"
+      />
+
+    </div>
+  </body>
+</html>

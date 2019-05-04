@@ -66,6 +66,7 @@ func main() {
 
     e.File("/", "html/login.html")
     e.File("/create", "html/create.html")
+    e.File("/team", "html/team.html")
 
     e.GET("/client/:userid", Contents.Client(db))
 
@@ -87,6 +88,8 @@ func main() {
 
     e.GET("/chat", Chat.Read(db))
     e.POST("/chat", Chat.Create(db))
+
+    e.POST("/team/:userid", User.SetTeam(db))
 
     e.Start(":8080")
 }

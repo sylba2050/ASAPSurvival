@@ -186,6 +186,30 @@ func IsJoinMe(db *gorm.DB) echo.HandlerFunc {
     }
 }
 
+func SetTeam(db *gorm.DB) echo.HandlerFunc {
+    return func(c echo.Context) error {
+        userid := c.Param("userid")
+        code := c.FormValue("code")
+        if !redirect.IsAccurateCode(userid, code, db) {
+            return c.Redirect(http.StatusTemporaryRedirect, "/")
+        }
+
+        update_team_data := new(DB.Team)
+        if err := c.Bind(update_team_data); err != nil {
+            fmt.Fprintln(os.Stderr, err)
+            return err
+        }
+        fmt.Fprintln(os.Stderr, update_team_data)
+
+        now_team_data := new(DB.Team)
+        db.Where("user_id = ?", userid).First(&now_team_data)
+        now_team_data.Team = update_team_data.Team
+        db.Save(&now_team_data)
+
+        return c.NoContent(http.StatusOK)
+    }
+}
+
 func Evolution(db *gorm.DB) echo.HandlerFunc {
     return func(c echo.Context) error {
         userid := c.Param("userid")
