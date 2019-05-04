@@ -18,6 +18,14 @@ input[type="button"]::focus {
     outline-offset: -2px;
 }
 
+body, html{
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
 .red {
     background-color: #E9546B;
 }
@@ -44,4 +52,9 @@ input[type="button"]::focus {
 
 .orange {
     background-color:orange;
+}
+
+.join_button {
+    height: 50vh;
+    width: 49vw;
 }
