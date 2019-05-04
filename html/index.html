@@ -1,142 +1,287 @@
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>メイン</title>
-    <link rel="stylesheet" type="text/css" href="/css/index.css">
+    <link rel="stylesheet" type="text/css" href="/css/index.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="/js/index.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div id="main">
-
-        <section id="hit_call" v-if="is_dead_or_resporn_active">
-            <div id="hit_call_and_cancel_button_area">
-                <div id="confirmation_dead_or_alive">
-                    <span class="confirmation_dead_or_alive_text" v-if="is_survival.is_survival">ヒットされましたか？</span>
-                    <span class="confirmation_dead_or_alive_text" v-else>リスポーンしますか？</span>
-                </div>
-                <div id="dead_or_alive_button_area" class="flex">
-                    <input class="dead_or_alive_button red" type="button" value="はい" v-on:click="deadOrRespornFromNowStatus">
-                    <input class="dead_or_alive_button blue" type="button" value="いいえ" v-on:click="switchDeadOrRespornButtonActive">
-                </div>
-            </div>
-        </section>
-
-        <div id="content" class="flex">
-            <div id="people">
-                <section class="me flex light_gray" v-on:click="switchDeadOrRespornButtonActive">
-                    <div class="icon_area">
-                        <img src="/img/default.png" alt="icon" class="icon">
-                    </div>
-                    <div class="status">
-                        <div class="name_area">
-                            <div class="userid">{{userid}}</div>
-                        </div>
-                        <div class="status_area">
-                            <div class="is_join">
-                                <div v-if="is_join.is_join">参加中</div>
-                                <div v-else>休憩中</div>
-                            </div>
-                            <div class="is_survival">
-                                <div v-if="is_survival.is_survival">生存中</div>
-                                <div v-else>死亡中</div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="others_area">
-                    <div v-for="join in joins_userid" class="others flex" v-bind:class="[ checkSurvivalById(join) ? 'green' : 'red' ]">
-                        <div class="icon_area">
-                            <img src="/img/default.png" alt="icon" class="icon">
-                        </div>
-                        <div class="status">
-                            <div class="name_area">
-                                <div class="userid">{{join}}</div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-            <section id="chat_area" v-on:click="joinOrBreakTimeFromNowStatus">
-                <div v-for="chat in chats">
-                    <div>{{chat.CreatedAt.slice(11, 19)}} : {{chat.send_user_id}} : {{chat.content}}</div>
-                </div>
-            </section>
+      <section id="hit_call" v-if="is_dead_or_resporn_active">
+        <div id="hit_call_and_cancel_button_area">
+          <div id="confirmation_dead_or_alive">
+            <span
+              class="confirmation_dead_or_alive_text"
+              v-if="is_survival.is_survival"
+              >ヒットされましたか？</span
+            >
+            <span class="confirmation_dead_or_alive_text" v-else
+              >リスポーンしますか？</span
+            >
+          </div>
+          <div id="dead_or_alive_button_area" class="flex">
+            <input
+              class="dead_or_alive_button red"
+              type="button"
+              value="はい"
+              v-on:click="deadOrRespornFromNowStatus"
+            />
+            <input
+              class="dead_or_alive_button blue"
+              type="button"
+              value="いいえ"
+              v-on:click="switchDeadOrRespornButtonActive"
+            />
+          </div>
         </div>
+      </section>
 
-        <section id="default_chat" class="chat_button_area" v-if="active_chat=='default'">
-            <div class="chat_flex_area flex">
-                <input class="chat_button red" type="button" value="返答系 : REPLY" v-on:click="setActiveChat('reply')">
-                <input class="chat_button orange" type="button" value="緊急系 : EMERGENCY" v-on:click="setActiveChat('emergency')">
+      <div id="content" class="flex">
+        <div id="people">
+          <section
+            class="me flex light_gray"
+            v-on:click="switchDeadOrRespornButtonActive"
+          >
+            <div class="icon_area">
+              <img src="/img/default.png" alt="icon" class="icon" />
             </div>
-            <div class="chat_flex_area flex">
-                <input class="chat_button gray" type="button" value="指示系 : ORDER" v-on:click="setActiveChat('order')">
-                <input class="chat_button green" type="button" value="挨拶系 : GREETING" v-on:click="setActiveChat('greeting')">
+            <div class="status">
+              <div class="name_area">
+                <div class="userid">{{userid}}</div>
+              </div>
+              <div class="status_area">
+                <div class="is_join">
+                  <div v-if="is_join.is_join">参加中</div>
+                  <div v-else>休憩中</div>
+                </div>
+                <div class="is_survival">
+                  <div v-if="is_survival.is_survival">生存中</div>
+                  <div v-else>死亡中</div>
+                </div>
+              </div>
             </div>
-        </section>
+          </section>
 
-        <section id="default_reply" class="chat_button_area" v-if="active_chat=='reply'">
-            <div class="chat_flex_area flex">
-                <input class="chat_button red" type="button" value="了解!" v-on:click="sendChat('了解!'); setActiveChat('default')">
-                <input class="chat_button red" type="button" value="ダメです!" v-on:click="sendChat('ダメです!'); setActiveChat('default')">
+          <section id="others_area">
+            <div
+              v-for="join in joins_userid"
+              class="others flex"
+              v-bind:class="[ checkSurvivalById(join) ? 'green' : 'red' ]"
+            >
+              <div class="icon_area">
+                <img src="/img/default.png" alt="icon" class="icon" />
+              </div>
+              <div class="status">
+                <div class="name_area">
+                  <div class="userid">{{join}}</div>
+                </div>
+              </div>
             </div>
-            <div class="chat_flex_area flex">
-                <input class="chat_button red" type="button" value="すぐに行きます!" v-on:click="sendChat('すぐに行きます!'); setActiveChat('default')">
-                <input class="chat_button gray" type="button" value="キャンセル" v-on:click="setActiveChat('default')">
-            </div>
-        </section>
-
-        <section id="default_emergency" class="chat_button_area" v-if="active_chat=='emergency'">
-            <div class="chat_flex_area flex">
-                <input class="chat_button orange" type="button" value="敵を発見!" v-on:click="sendChat('敵を発見!'); setActiveChat('default')">
-                <input class="chat_button orange" type="button" value="助けに来てくれ!" v-on:click="sendChat('助けに来てくれ!'); setActiveChat('default')">
-            </div>
-            <div class="chat_flex_area flex">
-                <input class="chat_button orange" type="button" value="この中にいるぞ!" v-on:click="sendChat('この中にいるぞ!'); setActiveChat('default')">
-                <input class="chat_button gray" type="button" value="キャンセル" v-on:click="setActiveChat('default')">
-            </div>
-        </section>
-
-        <section id="default_order" class="chat_button_area" v-if="active_chat=='order'">
-            <div class="chat_flex_area flex">
-                <input class="chat_button gray" type="button" value="カバーしてくれ!" v-on:click="sendChat('カバーしてくれ!'); setActiveChat('default')">
-                <input class="chat_button gray" type="button" value="戻ってくれ!" v-on:click="sendChat('戻ってくれ'); setActiveChat('default')">
-            </div>
-            <div class="chat_flex_area flex">
-                <input class="chat_button gray" type="button" value="横から回ってくれ!" v-on:click="sendChat('横から回ってくれ!'); setActiveChat('default')">
-                <input class="chat_button gray" type="button" value="キャンセル" v-on:click="setActiveChat('default')">
-            </div>
-        </section>
-
-        <section id="default_greeting" class="chat_button_area" v-if="active_chat=='greeting'">
-            <div class="chat_flex_area flex">
-                <input class="chat_button green" type="button" value="観戦台にいます" v-on:click="sendChat('観戦台にいます'); setActiveChat('default')">
-                <input class="chat_button green" type="button" value="セーフティ戻ります" v-on:click="sendChat('セーフティ戻ります'); setActiveChat('default')">
-            </div>
-            <div class="chat_flex_area flex">
-                <input class="chat_button green" type="button" value="お疲れ様でした!" v-on:click="sendChat('お疲れ様でした!'); setActiveChat('default')">
-                <input class="chat_button gray" type="button" value="キャンセル" v-on:click="setActiveChat('default'); setActiveChat('default')">
-            </div>
-        </section>
-
-        <br>
-        <br>
-        <br>
-        <br>
-
-        参加者リスト:
-        <div v-for="join in joins_userid">
-            {{join}}
-            <span v-if="survivals_userid.indexOf(join) >= 0">生存</span>
-            <span v-else>死亡</span>
+          </section>
         </div>
-        <br>
-        <input type="button" value="dead" v-on:click="dead">
-        <input type="button" value="resorn" v-on:click="resporn">
-        <input type="button" value="join" v-on:click="join">
-        <input type="button" value="breaktime" v-on:click="breaktime">
+        <section id="chat_area" v-on:click="joinOrBreakTimeFromNowStatus">
+          <div v-for="chat in chats">
+            <div>
+              {{chat.CreatedAt.slice(11, 19)}} : {{chat.send_user_id}} :
+              {{chat.content}}
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <section
+        id="default_chat"
+        class="chat_button_area"
+        v-if="active_chat=='default'"
+      >
+        <div class="chat_flex_area flex">
+          <input
+            class="chat_button red"
+            type="button"
+            value="返答系 : REPLY"
+            v-on:click="setActiveChat('reply')"
+          />
+          <input
+            class="chat_button orange"
+            type="button"
+            value="緊急系 : EMERGENCY"
+            v-on:click="setActiveChat('emergency')"
+          />
+        </div>
+        <div class="chat_flex_area flex">
+          <input
+            class="chat_button gray"
+            type="button"
+            value="指示系 : ORDER"
+            v-on:click="setActiveChat('order')"
+          />
+          <input
+            class="chat_button green"
+            type="button"
+            value="挨拶系 : GREETING"
+            v-on:click="setActiveChat('greeting')"
+          />
+        </div>
+      </section>
+
+      <section
+        id="default_reply"
+        class="chat_button_area"
+        v-if="active_chat=='reply'"
+      >
+        <div class="chat_flex_area flex">
+          <input
+            class="chat_button red"
+            type="button"
+            value="了解!"
+            v-on:click="sendChat('了解!'); setActiveChat('default')"
+          />
+          <input
+            class="chat_button red"
+            type="button"
+            value="ダメです!"
+            v-on:click="sendChat('ダメです!'); setActiveChat('default')"
+          />
+        </div>
+        <div class="chat_flex_area flex">
+          <input
+            class="chat_button red"
+            type="button"
+            value="すぐに行きます!"
+            v-on:click="sendChat('すぐに行きます!'); setActiveChat('default')"
+          />
+          <input
+            class="chat_button gray"
+            type="button"
+            value="キャンセル"
+            v-on:click="setActiveChat('default')"
+          />
+        </div>
+      </section>
+
+      <section
+        id="default_emergency"
+        class="chat_button_area"
+        v-if="active_chat=='emergency'"
+      >
+        <div class="chat_flex_area flex">
+          <input
+            class="chat_button orange"
+            type="button"
+            value="敵を発見!"
+            v-on:click="sendChat('敵を発見!'); setActiveChat('default')"
+          />
+          <input
+            class="chat_button orange"
+            type="button"
+            value="助けに来てくれ!"
+            v-on:click="sendChat('助けに来てくれ!'); setActiveChat('default')"
+          />
+        </div>
+        <div class="chat_flex_area flex">
+          <input
+            class="chat_button orange"
+            type="button"
+            value="この中にいるぞ!"
+            v-on:click="sendChat('この中にいるぞ!'); setActiveChat('default')"
+          />
+          <input
+            class="chat_button gray"
+            type="button"
+            value="キャンセル"
+            v-on:click="setActiveChat('default')"
+          />
+        </div>
+      </section>
+
+      <section
+        id="default_order"
+        class="chat_button_area"
+        v-if="active_chat=='order'"
+      >
+        <div class="chat_flex_area flex">
+          <input
+            class="chat_button gray"
+            type="button"
+            value="カバーしてくれ!"
+            v-on:click="sendChat('カバーしてくれ!'); setActiveChat('default')"
+          />
+          <input
+            class="chat_button gray"
+            type="button"
+            value="戻ってくれ!"
+            v-on:click="sendChat('戻ってくれ'); setActiveChat('default')"
+          />
+        </div>
+        <div class="chat_flex_area flex">
+          <input
+            class="chat_button gray"
+            type="button"
+            value="横から回ってくれ!"
+            v-on:click="sendChat('横から回ってくれ!'); setActiveChat('default')"
+          />
+          <input
+            class="chat_button gray"
+            type="button"
+            value="キャンセル"
+            v-on:click="setActiveChat('default')"
+          />
+        </div>
+      </section>
+
+      <section
+        id="default_greeting"
+        class="chat_button_area"
+        v-if="active_chat=='greeting'"
+      >
+        <div class="chat_flex_area flex">
+          <input
+            class="chat_button green"
+            type="button"
+            value="観戦台にいます"
+            v-on:click="sendChat('観戦台にいます'); setActiveChat('default')"
+          />
+          <input
+            class="chat_button green"
+            type="button"
+            value="セーフティ戻ります"
+            v-on:click="sendChat('セーフティ戻ります'); setActiveChat('default')"
+          />
+        </div>
+        <div class="chat_flex_area flex">
+          <input
+            class="chat_button green"
+            type="button"
+            value="お疲れ様でした!"
+            v-on:click="sendChat('お疲れ様でした!'); setActiveChat('default')"
+          />
+          <input
+            class="chat_button gray"
+            type="button"
+            value="キャンセル"
+            v-on:click="setActiveChat('default'); setActiveChat('default')"
+          />
+        </div>
+      </section>
+
+      <br />
+      <br />
+      <br />
+      <br />
+
+      参加者リスト:
+      <div v-for="join in joins_userid">
+        {{join}}
+        <span v-if="survivals_userid.indexOf(join) >= 0">生存</span>
+        <span v-else>死亡</span>
+      </div>
+      <br />
+      <input type="button" value="dead" v-on:click="dead" />
+      <input type="button" value="resorn" v-on:click="resporn" />
+      <input type="button" value="join" v-on:click="join" />
+      <input type="button" value="breaktime" v-on:click="breaktime" />
     </div>
-</body>
+  </body>
 </html>

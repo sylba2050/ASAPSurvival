@@ -1,22 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>ログイン</title>
-    <link rel="stylesheet" type="text/css" href="/css/login.css">
+    <link rel="stylesheet" type="text/css" href="/css/login.css" />
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="/js/sha256.js"></script>
     <script src="/js/login.js"></script>
-</head>
-<body>
-  <div id="main">
-    <input type="text" id="user_id" maxlength="20" placeholder="id" v-model="id">
-    <input type="password" id="password" maxlength="20" placeholder="password" v-model="password">
-    <input type="button" id="send" class="red" value="ログイン" style="display:flex;" v-on:click="post">
-    <div>
+  </head>
+  <body>
+    <div id="main">
+      <input
+        type="text"
+        id="user_id"
+        maxlength="20"
+        placeholder="id"
+        v-model="id"
+      />
+      <input
+        type="password"
+        id="password"
+        maxlength="20"
+        placeholder="password"
+        v-model="password"
+      />
+      <input
+        type="button"
+        id="send"
+        class="red"
+        value="ログイン"
+        style="display:flex;"
+        v-on:click="post"
+      />
+      <div>
         アカウント作成は<span><a href="/create">こちら</a></span>
+      </div>
     </div>
-  <div>
-</body>
+  </body>
 </html>
